@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import auth from "../services/authService";
 import Table from "./common/table";
 import Like from "./common/like";
 import { Link } from "react-router-dom";
@@ -32,12 +33,20 @@ class MoviesTable extends Component {
     }
   ];
 
+  displayDelete() {
+    const user = auth.getCurrentUser();
+
+    if (user && user.isAdmin) return this.columns;
+    else return this.columns.filter(column => column.key !== "delete");
+  }
+
   render() {
     const { movies, onSort, sortColumn } = this.props;
+    const filteredColumns = this.displayDelete();
 
     return (
       <Table
-        columns={this.columns}
+        columns={filteredColumns}
         data={movies}
         sortColumn={sortColumn}
         onSort={onSort}

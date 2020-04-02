@@ -113,6 +113,7 @@ class Movies extends Component {
       genres,
       filteredGenre
     } = this.state;
+    const { user } = this.props;
 
     if (moviesCount === 0) return <p>There are no movies in the database.</p>;
 
@@ -128,13 +129,15 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          <Link
-            to="/movies/new"
-            className="btn btn-primary"
-            style={{ marginBottom: 20 }}
-          >
-            New Movie
-          </Link>
+          {user && (
+            <Link
+              to="/movies/new"
+              className="btn btn-primary"
+              style={{ marginBottom: 20 }}
+            >
+              New Movie
+            </Link>
+          )}
           <p>Showing {totalCount} movies in the database.</p>
           <SearchBar input={searchQuery} onSearch={this.handleSearch} />
           <MoviesTable
